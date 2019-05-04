@@ -26,6 +26,7 @@ var brickHeight = 20;
 var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
+var score = 0;
 
 var bloques = [];
 
@@ -108,12 +109,27 @@ function detectarColision (){
     for(var column = 0; column < brickColumnCount; column++) {
       var bloque = bloques [row] [column];
 
-      if (x > bloque.x && x < bloque.x + brickWidth && y > bloque.y && y < bloque.y  + brickHeight) {
-        dy = -dy
-        bloque.status = 0;
-      }
+     if (bloque.status == 1) {
+       if (x > bloque.x && x < bloque.x + brickWidth && y > bloque.y && y < bloque.y  + brickHeight) {
+         dy = -dy
+         bloque.status = 0;
+          score++;
+
+          if (score == brickRowCount * brickColumnCount){
+           alert("ganastes eres un pro");
+           document.location.reload();
+          }
+     }
     }
   }
+  }
+}
+
+//Esta funcion dibuja el puntaje
+function drawScore(){
+  context.font = "16px Arial";
+  context.fillStyle = "#0095DD";
+  context.fillText ("puntaje: " + score, 8, 20);
 }
 
 function draw() {
@@ -127,6 +143,9 @@ function draw() {
 
   //se llama a la funcion de dibujar una paleta
   drawPaddle();
+
+  //se llama a la funcion de dibujar un puntaje
+  drawScore();
 
   //se le llama a la funcion de detectarColision
   detectarColision();
